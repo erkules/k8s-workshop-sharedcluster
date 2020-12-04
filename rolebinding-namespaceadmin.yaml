@@ -1,0 +1,13 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: projekt11
+  namespace: projekt11
+subjects:
+- kind: User
+  name: projekt11
+roleRef:
+  kind: ClusterRole
+  name: admin 
+  apiGroup: rbac.authorization.k8s.io
+

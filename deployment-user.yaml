@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wwwuser
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 0
+  replicas: 4
+  minReadySeconds: 4
+  selector:
+    matchLabels:
+      app: wwwuser
+  template:
+    metadata:
+      name: wwwuser
+      labels:
+        app: wwwuser
+    spec:
+      containers:
+      - name: image1
+        image: erkules/nginxhostnameuser:v1
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: wwwuser
+spec: 
+  selector:
+    app: wwwuser
+  ports:
+  - port: 8080
+
+---
+

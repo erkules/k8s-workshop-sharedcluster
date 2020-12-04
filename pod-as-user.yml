@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-as-user
+spec:
+  terminationGracePeriodSeconds: 2
+  containers:
+  - name: ping
+    image: alpine
+    securityContext:
+      runAsUser: 1000
+    command:
+    - sleep
+    - "5000"
+

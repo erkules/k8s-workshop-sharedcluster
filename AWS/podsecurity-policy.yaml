@@ -1,0 +1,54 @@
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: basic-psp
+spec:
+  privileged: false
+  allowPrivilegeEscalation: false
+  requiredDropCapabilities:     
+    - ALL
+  DefaultAddCapabilities:      
+  volumes:     
+    - 'configMap'
+    - 'secret'
+    - 'persistentVolumeClaim'
+  hostNetwork: false
+  hostIPC:     false
+  hostPID:     false
+  runAsUser:  
+    rule: 'MustRunAsNonRoot'
+  seLinux:                 
+    rule: 'RunAsAny'                       
+  supplementalGroups:
+    rule: 'RunAsAny'
+  fsGroup:
+    rule: 'RunAsAny'
+---
+
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: basic-psp-crole
+rules:
+- apiGroups:
+  - extensions
+  resources:
+  - podsecuritypolicies
+  verbs:
+  - use
+  resourceNames:
+  - basic-psp
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata: 
+  name: erkan:psp:default
+subjects:
+- kind: Group
+  name: system:authenticated
+roleRef:
+  kind: ClusterRole
+  name: basic-psp-crole
+  apiGroup: rbac.authorization.k8s.io
+
