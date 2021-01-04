@@ -1,7 +1,27 @@
 # PSP-(Cluster)RoleBindings
 
+Bei EKS interessieren uns 2 Sachen:
 
-# Die laschen Defaults ändern
+1. Netzwerk
+2. PodSecurityPolicy (PSP)
+
+# Netzwerk/CNI
+
+Das Netzwerk von EKS beherrscht keine NetworkPolicies.
+Daher haben wir Calico installiert:
+
+~~~
+kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7/calico.yaml
+~~~
+
+Nachzulesen in: https://docs.aws.amazon.com/eks/latest/userguide/calico.html
+
+# PSP
+
+Die PSPs in EKS sind zu lasch :/
+
+
+# Die laschen Defaults ändern!
 
 Das Binding Löschen, dass allen Authentifizierten erlaubt auch privilegiertn Workload zu fahren
 
